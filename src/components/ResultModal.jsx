@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom";
 
 const ResultModal = forwardRef(function ResultModal(
     { result, targetTime, remainingTime, onReset },
@@ -18,7 +19,8 @@ const ResultModal = forwardRef(function ResultModal(
         };
     });
 
-    return (
+    // render the modal in different dom node other than the one in which it was called (Timer Challange (challanges div))
+    return createPortal(
         <dialog ref={dialog} className="result-modal">
             {userLost && <h2>you lost</h2>}
             {!userLost && <h2>you score: {score}</h2>}
@@ -33,7 +35,8 @@ const ResultModal = forwardRef(function ResultModal(
             <form method="dialog" onSubmit={onReset}>
                 <button>close</button>
             </form>
-        </dialog>
+        </dialog>,
+        document.getElementById("modal")
     );
 });
 
